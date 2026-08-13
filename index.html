@@ -19,7 +19,7 @@
             color: #333; 
         }
         .container { 
-            max-width: 850px; 
+            max-width: 900px; 
             margin: 0 auto; 
         }
         h1 { 
@@ -121,10 +121,18 @@
         <div style="overflow-x: auto;">
             <table>
                 <thead>
-                    <tr><th>日付</th><th>容量(g)</th><th>価格(円)</th><th>発送先</th><th>配送方法</th><th style="width: 60px;">操作</th></tr>
+                    <tr>
+                        <th>日付</th>
+                        <th>容量(g)</th>
+                        <th>価格(円)</th>
+                        <th>粗利(円)</th>
+                        <th>発送先</th>
+                        <th>配送方法</th>
+                        <th style="width: 60px;">操作</th>
+                    </tr>
                 </thead>
                 <tbody id="dataTableBody">
-                    <tr><td colspan="6" style="text-align: center;">データを読み込み中...</td></tr>
+                    <tr><td colspan="7" style="text-align: center;">データを読み込み中...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -132,7 +140,11 @@
 </div>
 
 <script>
-    // ご提示いただいたスプレッドシート連動用のAPI URL
+    // 配送料金設定（必要に応じて変更可能です）
+    const SHIPPING_COST_NORMAL = 210;  // らくらくメルカリ便（ネコポス等）の送料
+    const SHIPPING_COST_COOL = 1000;   // クール便の送料（目安）
+
+    // スプレッドシート連動用のAPI URL
     const API_URL = 'https://script.google.com/macros/s/AKfycbzWyhURD3k7ZVCYq_FNffh9_zWQpypmBN5CtnURy3HUDSu-t2ZI4lgEmI2PZcakFx2K/exec';
 
     // ページが開かれたときにスプレッドシートからデータを取得する
@@ -146,12 +158,12 @@
             tbody.innerHTML = ''; // 読み込み中の文字を消す
             
             if(data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">まだデータがありません</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">まだデータがありません</td></tr>';
             } else {
                 data.reverse().forEach(item => addRowToTable(item, false));
             }
         } catch(e) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">データの読み込みに失敗しました</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: red;">データの読み込みに失敗しました</td></tr>';
         }
     };
 
@@ -203,11 +215,18 @@
         const tbody = document.getElementById('dataTableBody');
         if(tbody.innerText.includes('まだデータがありません')) tbody.innerHTML = '';
 
+        // 計算処理
+        const priceNum = Number(item.price) || 0;
+        const mercariFee = Math.floor(priceNum * 0.10); // メルカリ手数料10%（端数切り捨て）
+        const shippingCost = (item.shipping === 'クール便') ? SHIPPING_COST_COOL : SHIPPING_COST_NORMAL;
+        const profit = priceNum - mercariFee - shippingCost; // 粗利計算
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${item.date}</td>
             <td>${item.amount}</td>
-            <td>${Number(item.price).toLocaleString()}</td>
+            <td>${priceNum.toLocaleString()}</td>
+            <td style="font-weight: bold; color: ${profit >= 0 ? '#27ae60' : '#e74c3c'};">${profit.toLocaleString()}</td>
             <td>${item.pref}</td>
             <td>${item.shipping}</td>
             <td><button class="btn-delete" onclick="deleteData('${item.id}', this)">削除</button></td>

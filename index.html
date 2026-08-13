@@ -3,113 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>島らっきょう販売管理ダッシュボード</title>
+    <title>島らっきょう販売管理</title>
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --accent-color: #27ae60;
-            --danger-color: #e74c3c;
-            --bg-color: #f5f6fa;
+        :root { 
+            --primary-color: #2c3e50; 
+            --accent-color: #27ae60; 
+            --danger-color: #e74c3c; 
+            --bg-color: #f5f6fa; 
         }
-        body {
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 20px;
-            color: #333;
+        body { 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            margin: 0; 
+            padding: 20px; 
+            color: #333; 
         }
-        .container {
-            max-width: 850px;
-            margin: 0 auto;
+        .container { 
+            max-width: 850px; 
+            margin: 0 auto; 
         }
-        h1 {
-            text-align: center;
-            color: var(--primary-color);
-            font-size: 1.5rem;
+        h1 { 
+            text-align: center; 
+            color: var(--primary-color); 
         }
-        .card {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
+        .card { 
+            background: #fff; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.08); 
+            margin-bottom: 20px; 
         }
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
+        .form-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+            gap: 15px; 
         }
-        .form-group {
-            margin-bottom: 10px;
+        .form-group { 
+            margin-bottom: 10px; 
         }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            font-size: 0.9rem;
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+            font-size: 0.9rem; 
         }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 1rem;
+        input, select { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
         }
-        .btn-submit {
-            background-color: var(--accent-color);
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
-            font-weight: bold;
-            margin-top: 15px;
+        .btn-submit { 
+            background-color: var(--accent-color); 
+            color: white; 
+            padding: 12px; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            width: 100%; 
+            font-weight: bold; 
+            margin-top: 15px; 
         }
-        .btn-submit:hover {
-            background-color: #219a52;
+        .btn-submit:hover { 
+            background-color: #219a52; 
         }
-        /* 削除ボタンのスタイル */
-        .btn-delete {
-            background-color: var(--danger-color);
-            color: white;
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: bold;
-            transition: background-color 0.2s;
+        .btn-delete { 
+            background-color: var(--danger-color); 
+            color: white; 
+            padding: 6px 12px; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 0.85rem; 
         }
         .btn-delete:hover {
             background-color: #c0392b;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 0.9rem;
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 10px; 
+            font-size: 0.9rem; 
         }
-        th, td {
-            padding: 12px 10px;
-            border-bottom: 1px solid #eee;
-            text-align: left;
-            vertical-align: middle;
+        th, td { 
+            padding: 12px 10px; 
+            border-bottom: 1px solid #eee; 
+            text-align: left; 
         }
-        th {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        tr:hover {
-            background-color: #f8f9fa;
-        }
-        @media (max-width: 600px) {
-            th, td {
-                padding: 8px 5px;
-                font-size: 0.8rem;
-            }
+        th { 
+            background-color: var(--primary-color); 
+            color: white; 
         }
     </style>
 </head>
@@ -122,31 +106,13 @@
         <h2>新規データ入力</h2>
         <form id="salesForm">
             <div class="form-grid">
-                <div class="form-group">
-                    <label for="orderDate">注文日</label>
-                    <input type="date" id="orderDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="amount">内容量 (g)</label>
-                    <input type="number" id="amount" placeholder="例: 500" required>
-                </div>
-                <div class="form-group">
-                    <label for="shipping">配送方法</label>
-                    <select id="shipping">
-                        <option value="通常便">通常便(メルカリ便)</option>
-                        <option value="クール便">クール便(ヤマト等)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="price">販売価格 (円)</label>
-                    <input type="number" id="price" placeholder="例: 2000" required>
-                </div>
-                <div class="form-group">
-                    <label for="prefecture">発送先（都道府県）</label>
-                    <input type="text" id="prefecture" placeholder="例: 東京都" required>
-                </div>
+                <div class="form-group"><label>注文日</label><input type="date" id="orderDate" required></div>
+                <div class="form-group"><label>内容量 (g)</label><input type="number" id="amount" placeholder="例: 500" required></div>
+                <div class="form-group"><label>配送方法</label><select id="shipping"><option value="通常便">通常便</option><option value="クール便">クール便</option></select></div>
+                <div class="form-group"><label>販売価格 (円)</label><input type="number" id="price" placeholder="例: 2000" required></div>
+                <div class="form-group"><label>発送先（都道府県）</label><input type="text" id="pref" placeholder="例: 東京都" required></div>
             </div>
-            <button type="button" class="btn-submit" onclick="addData()">データを登録する</button>
+            <button type="button" class="btn-submit" id="submitBtn" onclick="addData()">データを登録する</button>
         </form>
     </div>
 
@@ -155,32 +121,10 @@
         <div style="overflow-x: auto;">
             <table>
                 <thead>
-                    <tr>
-                        <th>日付</th>
-                        <th>容量(g)</th>
-                        <th>価格(円)</th>
-                        <th>発送先</th>
-                        <th>配送方法</th>
-                        <th style="width: 80px;">操作</th>
-                    </tr>
+                    <tr><th>日付</th><th>容量(g)</th><th>価格(円)</th><th>発送先</th><th>配送方法</th><th style="width: 60px;">操作</th></tr>
                 </thead>
                 <tbody id="dataTableBody">
-                    <tr>
-                        <td>2026/08/13</td>
-                        <td>500</td>
-                        <td>2,000</td>
-                        <td>東京都</td>
-                        <td>通常便</td>
-                        <td><button class="btn-delete" onclick="deleteRow(this)">削除</button></td>
-                    </tr>
-                    <tr>
-                        <td>2026/08/12</td>
-                        <td>800</td>
-                        <td>3,100</td>
-                        <td>大阪府</td>
-                        <td>クール便</td>
-                        <td><button class="btn-delete" onclick="deleteRow(this)">削除</button></td>
-                    </tr>
+                    <tr><td colspan="6" style="text-align: center;">データを読み込み中...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -188,49 +132,111 @@
 </div>
 
 <script>
-    // 画面ロード時に今日の日付を初期セット
-    document.getElementById('orderDate').valueAsDate = new Date();
+    // ご提示いただいたスプレッドシート連動用のAPI URL
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzWyhURD3k7ZVCYq_FNffh9_zWQpypmBN5CtnURy3HUDSu-t2ZI4lgEmI2PZcakFx2K/exec';
 
-    // 新規データ追加処理（画面反映用）
-    function addData() {
-        const orderDate = document.getElementById('orderDate').value;
+    // ページが開かれたときにスプレッドシートからデータを取得する
+    window.onload = async () => {
+        document.getElementById('orderDate').valueAsDate = new Date();
+        const tbody = document.getElementById('dataTableBody');
+        
+        try {
+            const res = await fetch(API_URL);
+            const data = await res.json();
+            tbody.innerHTML = ''; // 読み込み中の文字を消す
+            
+            if(data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">まだデータがありません</td></tr>';
+            } else {
+                data.reverse().forEach(item => addRowToTable(item, false));
+            }
+        } catch(e) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">データの読み込みに失敗しました</td></tr>';
+        }
+    };
+
+    // 新規追加ボタンが押されたときの処理
+    async function addData() {
+        const btn = document.getElementById('submitBtn');
+        const date = document.getElementById('orderDate').value;
         const amount = document.getElementById('amount').value;
         const shipping = document.getElementById('shipping').value;
         const price = document.getElementById('price').value;
-        const prefecture = document.getElementById('prefecture').value;
+        const pref = document.getElementById('pref').value;
 
-        if (!orderDate || !amount || !price || !prefecture) {
-            alert('すべての項目を入力してください。');
-            return;
+        if (!date || !amount || !price || !pref) return alert('全項目を入力してください');
+
+        btn.innerText = '登録中...';
+        btn.disabled = true;
+
+        const params = new URLSearchParams({
+            action: 'add',
+            date: date.replace(/-/g, '/'),
+            amount: amount,
+            shipping: shipping,
+            price: price,
+            pref: pref
+        });
+
+        try {
+            const res = await fetch(API_URL, { method: 'POST', body: params });
+            const result = await res.json();
+            
+            addRowToTable({
+                id: result.id, date: date.replace(/-/g, '/'), amount: amount, price: price, pref: pref, shipping: shipping
+            }, true);
+
+            // 入力欄をリセット
+            document.getElementById('amount').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('pref').value = '';
+        } catch (e) {
+            alert('登録に失敗しました');
         }
 
-        const tbody = document.getElementById('dataTableBody');
-        const newRow = document.createElement('tr');
-
-        newRow.innerHTML = `
-            <td>${orderDate.replace(/-/g, '/')}</td>
-            <td>${amount}</td>
-            <td>${Number(price).toLocaleString()}</td>
-            <td>${prefecture}</td>
-            <td>${shipping}</td>
-            <td><button class="btn-delete" onclick="deleteRow(this)">削除</button></td>
-        `;
-
-        // 一覧の一番上に追加
-        tbody.insertBefore(newRow, tbody.firstChild);
-
-        // 入力フォームのリセット（日付以外）
-        document.getElementById('amount').value = '';
-        document.getElementById('price').value = '';
-        document.getElementById('prefecture').value = '';
+        btn.innerText = 'データを登録する';
+        btn.disabled = false;
     }
 
-    // 行削除処理
-    function deleteRow(button) {
-        // 確認ダイアログで「OK」が押された場合のみ削除を実行
-        if (confirm('この登録データを削除してもよろしいですか？')) {
-            const row = button.closest('tr');
-            row.remove();
+    // テーブルに行を描画する関数
+    function addRowToTable(item, isNew) {
+        const tbody = document.getElementById('dataTableBody');
+        if(tbody.innerText.includes('まだデータがありません')) tbody.innerHTML = '';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.date}</td>
+            <td>${item.amount}</td>
+            <td>${Number(item.price).toLocaleString()}</td>
+            <td>${item.pref}</td>
+            <td>${item.shipping}</td>
+            <td><button class="btn-delete" onclick="deleteData('${item.id}', this)">削除</button></td>
+        `;
+        
+        if(isNew) {
+            tbody.insertBefore(tr, tbody.firstChild);
+        } else {
+            tbody.appendChild(tr);
+        }
+    }
+
+    // 削除ボタンが押されたときの処理
+    async function deleteData(id, btnElement) {
+        if (!confirm('本当に削除しますか？')) return;
+
+        const row = btnElement.closest('tr');
+        btnElement.innerText = '削除中...';
+        btnElement.disabled = true;
+
+        const params = new URLSearchParams({ action: 'delete', id: id });
+
+        try {
+            await fetch(API_URL, { method: 'POST', body: params });
+            row.remove(); // 成功したら画面から行を消す
+        } catch(e) {
+            alert('削除に失敗しました');
+            btnElement.innerText = '削除';
+            btnElement.disabled = false;
         }
     }
 </script>

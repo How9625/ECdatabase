@@ -1,0 +1,2 @@
+# ECdatabase
+ECサイトのデータベ－ス

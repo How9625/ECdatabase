@@ -178,6 +178,12 @@
 
         if (!date || !amount || !price || !pref) return alert('全項目を入力してください');
 
+        // ★スプレッドシートへ送るための粗利の事前計算
+        const priceNum = Number(price) || 0;
+        const mercariFee = Math.floor(priceNum * 0.10);
+        const shippingCost = (shipping === 'クール便') ? SHIPPING_COST_COOL : SHIPPING_COST_NORMAL;
+        const profit = priceNum - mercariFee - shippingCost;
+
         btn.innerText = '登録中...';
         btn.disabled = true;
 
@@ -187,6 +193,7 @@
             amount: amount,
             shipping: shipping,
             price: price,
+            profit: profit, // ★スプレッドシートに粗利データを送信
             pref: pref
         });
 
@@ -195,7 +202,12 @@
             const result = await res.json();
             
             addRowToTable({
-                id: result.id, date: date.replace(/-/g, '/'), amount: amount, price: price, pref: pref, shipping: shipping
+                id: result.id, 
+                date: date.replace(/-/g, '/'), 
+                amount: amount, 
+                price: price, 
+                pref: pref, 
+                shipping: shipping
             }, true);
 
             // 入力欄をリセット
@@ -215,7 +227,7 @@
         const tbody = document.getElementById('dataTableBody');
         if(tbody.innerText.includes('まだデータがありません')) tbody.innerHTML = '';
 
-        // 計算処理
+        // 画面表示用の計算処理
         const priceNum = Number(item.price) || 0;
         const mercariFee = Math.floor(priceNum * 0.10); // メルカリ手数料10%（端数切り捨て）
         const shippingCost = (item.shipping === 'クール便') ? SHIPPING_COST_COOL : SHIPPING_COST_NORMAL;
